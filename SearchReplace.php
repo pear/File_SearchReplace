@@ -262,7 +262,7 @@ class File_SearchReplace
         $file_array = file($filename);
 
         if (empty($this->ignore_lines) && $this->php5) { // PHP5 acceleration
-            $file_array = str_replace($this->find, $this->replace, $file_array, &$occurences);
+            $file_array = str_replace($this->find, $this->replace, $file_array, $occurences);
 
         } else { // str_replace() doesn't return number of occurences in PHP4
                  // so we need to count them manually and/or filter strings
@@ -281,7 +281,7 @@ class File_SearchReplace
                 }
 
                 if ($this->php5) {
-                    $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], &$counted);
+                    $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], $counted);
                     $occurences += $counted;
                 } else {
                     foreach ($local_find as $fk => $ff) {
@@ -332,7 +332,7 @@ class File_SearchReplace
         // because I haven't decided yet whether it is bug or feature)
 
         if ($this->php5) {
-            $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], &$counted);
+            $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], $counted);
             $occurences += $counted;
         } else {
             foreach ($local_find as $fk => $ff) {
