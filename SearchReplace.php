@@ -368,7 +368,7 @@ class File_SearchReplace
         clearstatcache();
 
         $file       = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
-        $occurences = count($matches = preg_split($this->find, $file)) - 1;
+        $occurences = preg_match_all($this->find, $file, $matches);
         $file       = preg_replace($this->find, $this->replace, $file);
 
         if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
