@@ -1,19 +1,36 @@
 <?php
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997, 1998, 1999, 2000, 2001 The PHP Group             |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 2.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard.heyes@heyes-computing.net>            |
-// +----------------------------------------------------------------------+
+// +-----------------------------------------------------------------------+
+// | Copyright (c) 2002, Richard Heyes                                     |
+// | All rights reserved.                                                  |
+// |                                                                       |
+// | Redistribution and use in source and binary forms, with or without    |
+// | modification, are permitted provided that the following conditions    |
+// | are met:                                                              |
+// |                                                                       |
+// | o Redistributions of source code must retain the above copyright      |
+// |   notice, this list of conditions and the following disclaimer.       |
+// | o Redistributions in binary form must reproduce the above copyright   |
+// |   notice, this list of conditions and the following disclaimer in the |
+// |   documentation and/or other materials provided with the distribution.|
+// | o The names of the authors may not be used to endorse or promote      |
+// |   products derived from this software without specific prior written  |
+// |   permission.                                                         |
+// |                                                                       |
+// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
+// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
+// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
+// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
+// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
+// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
+// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
+// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
+// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
+// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
+// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
+// |                                                                       |
+// +-----------------------------------------------------------------------+
+// | Author: Richard Heyes <richard@phpguru.org>                           |
+// +-----------------------------------------------------------------------+
 //
 // $Id$
 //
@@ -23,10 +40,8 @@
 /**
  * Search and Replace Utility
  *
- * See http://www.heyes-computing.net/scripts/ for full tar/zip
- * including example file.
  *
- * @author  Richard Heyes <richard.heyes@heyes-computing.net>
+ * @author  Richard Heyes <richard@phpguru.org>
  * @version 1.0
  * @package File
  */
@@ -60,8 +75,6 @@ class File_SearchReplace
      * @param int    $include_subdir            If performing on directories, whether to traverse subdirectories.
      * @param array  $ignore_lines              Ignore lines beginning with any of the strings in this array. This
      *                                          feature only works with the "normal" search.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = 1, $ignore_lines = array())
     {
@@ -87,8 +100,6 @@ class File_SearchReplace
      *
      * @access public
      * @return int Number of occurences found.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function getNumOccurences()
     {
@@ -103,8 +114,6 @@ class File_SearchReplace
      *
      * @access public
      * @return string The last error that occurred, if any.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function getLastError()
     {
@@ -119,8 +128,6 @@ class File_SearchReplace
      *
      * @access public
      * @param string $find The string/regex to find.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setFind($find)
     {
@@ -135,8 +142,6 @@ class File_SearchReplace
      *
      * @access public
      * @param string $replace The string/regex to replace the find string/regex with.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setReplace($replace)
     {
@@ -151,8 +156,6 @@ class File_SearchReplace
      *
      * @access public
      * @param array $files The file(s) to perform this operation on.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setFiles($files)
     {
@@ -167,8 +170,6 @@ class File_SearchReplace
      *
      * @access public
      * @param array $directories The directories to perform this operation on.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setDirectories($directories)
     {
@@ -183,8 +184,6 @@ class File_SearchReplace
      *
      * @access public
      * @param int $include_subdir Whether to traverse subdirectories or not.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setIncludeSubdir($include_subdir)
     {
@@ -200,8 +199,6 @@ class File_SearchReplace
      * @access public
      * @param array $ignore_lines Ignore lines beginning with any of the strings in this array. This
      *                            feature only works with the "normal" search.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setIgnoreLines($ignore_lines)
     {
@@ -220,8 +217,6 @@ class File_SearchReplace
      *               quick  - Uses str_replace for straight replacement throughout file. Quickest of the lot.
      *               preg   - Uses preg_replace(), so any regex valid with this function is valid here.
      *               ereg   - Uses ereg_replace(), so any regex valid with this function is valid here.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function setSearchFunction($search_function)
     {
@@ -258,8 +253,6 @@ class File_SearchReplace
      * @param string $filename The filename to search and replace upon.
      * @return array Will return an array containing the new file contents and the number of occurences.
      *               Will return FALSE if there are no occurences.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function search($filename)
     {
@@ -293,8 +286,6 @@ class File_SearchReplace
      * @param string $filename The filename to search and replace upon.
      * @return array Will return an array containing the new file contents and the number of occurences.
      *               Will return FALSE if there are no occurences.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function quickSearch($filename)
     {
@@ -320,8 +311,6 @@ class File_SearchReplace
      * @param string $filename The filename to search and replace upon.
      * @return array Will return an array containing the new file contents and the number of occurences.
      *               Will return FALSE if there are no occurences.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function pregSearch($filename)
     {
@@ -347,8 +336,6 @@ class File_SearchReplace
      * @param string $filename The filename to search and replace upon.
      * @return array Will return an array containing the new file contents and the number of occurences.
      *               Will return FALSE if there are no occurences.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function eregSearch($filename)
     {
@@ -374,8 +361,6 @@ class File_SearchReplace
      * @access private
      * @param string $filename The filename of the file to write.
      * @param string $contents The contents to write to the file.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function writeout($filename, $contents)
     {
@@ -399,8 +384,6 @@ class File_SearchReplace
      *
      * @access private
      * @param string $ser_func The search function to use.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function doFiles($ser_func)
     {
@@ -424,8 +407,6 @@ class File_SearchReplace
      *
      * @access private
      * @param string $ser_func The search function to use.
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function doDirectories($ser_func)
     {
@@ -462,8 +443,6 @@ class File_SearchReplace
      * do those too.
      *
      * @access public
-     *
-     * @author Richard Heyes <richard.heyes@heyes-computing.net>
      */
     function doSearch()
     {

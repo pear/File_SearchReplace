@@ -7,9 +7,9 @@
   <name>File_SearchReplace</name>
   <summary>Performs search and replace routines</summary>
   <description>
-   Provides various functions to perform search/replace
-   on files. Preg/Ereg regex supported along with faster
-   but more basic str_replace routine.
+Provides various functions to perform search/replace
+on files. Preg/Ereg regex supported along with faster
+but more basic str_replace routine.
   </description>
 
   <maintainers>
@@ -22,18 +22,27 @@
   </maintainers>
 
   <release>
-    <license>PHP</license>
-    <version>1.0</version>
-    <date>2002-04-21</date>
+    <version>1.0.1</version>
+    <date>2002-07-27</date>
     <state>stable</state>
-    <notes>
-	 Initial release
-    </notes>
+    <license>BSD</license>
+    <notes>License change</notes>
     <filelist>
       <dir name="/" baseinstalldir="File">
         <file role="php">SearchReplace.php</file>
       </dir>
     </filelist>
   </release>
+
+  <changelog>
+
+    <release>
+      <version>1.0</version>
+      <date>2002-04-21</date>
+      <state>stable</state>
+      <notes>Initial release</notes>
+    </release>
+
+  </changelog>
 
 </package>
