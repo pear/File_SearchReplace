@@ -59,6 +59,7 @@ class File_SearchReplace
     var $ignore_sep;
     var $occurences;
     var $search_function;
+    var $php5;
     var $last_error;
 
     // }}}
@@ -88,6 +89,7 @@ class File_SearchReplace
 
         $this->occurences      = 0;
         $this->search_function = 'search';
+        $this->php5            = (substr(PHP_VERSION, 0, 1) == 5) ? TRUE : FALSE;
         $this->last_error      = '';
 
     }
@@ -259,22 +261,34 @@ class File_SearchReplace
         $occurences = 0;
         $file_array = file($filename);
 
-        if (empty($this->ignore_lines) && substr(PHP_VERSION, 0, 1) == 5) { // PHP5 acceleration
-            str_replace($this->find, $this->replace, $file_array, &$occurences);
+        if (empty($this->ignore_lines) && $this->php5) { // PHP5 acceleration
+            $file_array = str_replace($this->find, $this->replace, $file_array, &$occurences);
 
-        } else { // if there are ignore lines or operating in PHP4 - S'n'R string by string
-                 // to catch number of occurences and/or filter strings
-            for ($i=0; $i<count($file_array); $i++) {
+        } else { // str_replace() doesn't return number of occurences in PHP4
+                 // so we need to count them manually and/or filter strings
+            $ignore_lines_num = count($this->ignore_lines);
 
-                if (count($this->ignore_lines) > 0) {
-                    for ($j=0; $j<count($this->ignore_lines); $j++) {
+            // just for the sake of catching occurences
+            $local_find    = array_values((array) $this->find);
+            $local_replace = array_values((array) $this->replace);
+
+            for ($i=0; $i < count($file_array); $i++) {
+
+                if ($ignore_lines_num > 0) {
+                    for ($j=0; $j < $ignore_lines_num; $j++) {
                         if (substr($file_array[$i],0,strlen($this->ignore_lines[$j])) == $this->ignore_lines[$j]) continue 2;
                     }
                 }
 
-                $occurences += substr_count($file_array[$i], $this->find);
-                $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i]);
-
+                if ($this->php5) {
+                    $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], &$occurences);
+                } else {
+                    foreach ($local_find as $fk => $ff) {
+                        $occurences += substr_count($file_array[$i], $ff);
+                        $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                        $file_array[$i] = str_replace($ff, $fr, $file_array[$i]);
+                    }
+                }
             }
 
         }
