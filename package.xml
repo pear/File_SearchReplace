@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE package SYSTEM "../package.dtd">
+<!-- do not use the "Type" attribute here, that one is only for
+     generated package.xml files -->
+<package>
+
+  <name>File_SearchReplace</name>
+  <summary>Performs search and replace routines</summary>
+  <description>
+   Provides various functions to perform search/replace
+   on files. Preg/Ereg regex supported along with faster
+   but more basic str_replace routine.
+  </description>
+
+  <maintainers>
+    <maintainer>
+      <user>richard</user>
+      <name>Richard Heyes</name>
+      <email>richard@php.net</email>
+      <role>lead</role>
+    </maintainer>
+  </maintainers>
+
+  <release>
+    <license>PHP</license>
+    <version>1.0</version>
+    <date>2002-04-21</date>
+    <state>stable</state>
+    <notes>
+	 Initial release
+    </notes>
+    <filelist>
+      <dir name="/" baseinstalldir="File">
+        <file role="php">SearchReplace.php</file>
+      </dir>
+    </filelist>
+  </release>
+
+</package>
