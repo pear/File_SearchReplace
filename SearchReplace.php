@@ -270,7 +270,7 @@ class File_SearchReplace
 
             // just for the sake of catching occurences
             $local_find    = array_values((array) $this->find);
-            $local_replace = array_values((array) $this->replace);
+            $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
 
             for ($i=0; $i < count($file_array); $i++) {
 
@@ -281,11 +281,16 @@ class File_SearchReplace
                 }
 
                 if ($this->php5) {
-                    $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], &$occurences);
+                    $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], &$counted);
+                    $occurences += $counted;
                 } else {
                     foreach ($local_find as $fk => $ff) {
                         $occurences += substr_count($file_array[$i], $ff);
-                        $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                        if (!is_array($local_replace)) {
+                            $fr = $local_replace;
+                        } else {
+                            $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                        }
                         $file_array[$i] = str_replace($ff, $fr, $file_array[$i]);
                     }
                 }
@@ -313,9 +318,33 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file       = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
-        $occurences = substr_count($file, $this->find);
-        $file       = str_replace($this->find, $this->replace, $file);
+        $file          = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
+        $local_find    = array_values((array) $this->find);
+        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+
+        $occurences    = 0;
+
+        // logic is the same as in str_replace function with one exception:
+        //   if <search> is a string and <replacement> is an array - substitution
+        //   is done from the first element of array. str_replace in this case
+        //   usualy fails with notice and returns "ArrayArrayArray..." string
+        // (this exclusive logic of SearchReplace will not work for php5, though,
+        // because I haven't decided yet whether it is bug or feature)
+
+        if ($this->php5) {
+            $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], &$counted);
+            $occurences += $counted;
+        } else {
+            foreach ($local_find as $fk => $ff) {
+                $occurences += substr_count($file, $ff);
+                if (!is_array($local_replace)) {
+                    $fr = $local_replace;
+                } else {
+                    $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                }
+                $file = str_replace($ff, $fr, $file);
+            }
+        }
 
         if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
         return $return;
