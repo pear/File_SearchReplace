@@ -256,7 +256,7 @@ class File_SearchReplace
      */
     function search($filename)
     {
-
+        $occurences = 0;
         $file_array = file($filename);
 
         for ($i=0; $i<count($file_array); $i++) {
