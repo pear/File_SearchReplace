@@ -1,5 +1,5 @@
 --TEST--
-File_SearchReplace single string file argument
+File_SearchReplace single file argument as string
 --SKIPIF--
 <?php 
 include('./setup.php');
@@ -16,8 +16,8 @@ $snr = new File_SearchReplace( $search, $replace, $onefilename);
 $snr -> doSearch() ;
 
 readfile($onefilename);
-echo "\n------[Occurences]: " . $snr->occurences;
-echo "\n------[Last Error]: " , ($snr->last_error !== '') ? var_dump($snr->last_error) : "N/A";
+echo "\n------[Occurences]: " . $snr->getNumOccurences();
+echo "\n------[Last Error]: " , ($snr->getLastError() !== '') ? var_dump($snr->getLastError()) : "N/A";
 
 ?>
 --EXPECT--

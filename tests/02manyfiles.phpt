@@ -19,8 +19,8 @@ foreach($files as $f) {
    readfile($f);
 };
 
-echo "\n------[Occurences]: " . $snr->occurences;
-echo "\n------[Last Error]: " , ($snr->last_error !== '') ? var_dump($snr->last_error) : "N/A";
+echo "\n------[Occurences]: " . $snr->getNumOccurences();
+echo "\n------[Last Error]: " , ($snr->getLastError() !== '') ? var_dump($snr->getLastError()) : "N/A";
 
 ?>
 --EXPECT--
