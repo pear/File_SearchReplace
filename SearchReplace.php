@@ -1,6 +1,6 @@
 <?php
 // +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2003, Richard Heyes                                     |
+// | Copyright (c) 2002-2005, Richard Heyes                                |
 // | All rights reserved.                                                  |
 // |                                                                       |
 // | Redistribution and use in source and binary forms, with or without    |
@@ -257,7 +257,6 @@ class File_SearchReplace
     function search($filename)
     {
 
-        $occurences = 0;
         $file_array = file($filename);
 
         for ($i=0; $i<count($file_array); $i++) {
@@ -268,8 +267,9 @@ class File_SearchReplace
                 }
             }
 
-            $occurences += count(explode($this->find, $file_array[$i])) - 1;
+            $occurences += substr_count($file_array[$i], $this->find);
             $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i]);
+
         }
         if ($occurences > 0) $return = array($occurences, implode('', $file_array)); else $return = FALSE;
         return $return;
@@ -446,6 +446,7 @@ class File_SearchReplace
      */
     function doSearch()
     {
+        $this->occurences = 0;
         if ($this->find != '') {
             if ((is_array($this->files) AND count($this->files) > 0) OR $this->files != '') $this->doFiles($this->search_function);
             if ($this->directories != '')                                                   $this->doDirectories($this->search_function);
