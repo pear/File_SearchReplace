@@ -72,11 +72,11 @@ class File_SearchReplace
      * @param string $replace                   The string/regex to replace $find with.
      * @param array  $files                     The file(s) to perform this operation on.
      * @param array  $directories    (optional) The directories to perform this operation on.
-     * @param int    $include_subdir            If performing on directories, whether to traverse subdirectories.
+     * @param bool   $include_subdir            If performing on directories, whether to traverse subdirectories.
      * @param array  $ignore_lines              Ignore lines beginning with any of the strings in this array. This
      *                                          feature only works with the "normal" search.
      */
-    function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = 1, $ignore_lines = array())
+    function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = TRUE, $ignore_lines = array())
     {
 
         $this->find            = $find;
@@ -84,7 +84,7 @@ class File_SearchReplace
         $this->files           = $files;
         $this->directories     = $directories;
         $this->include_subdir  = $include_subdir;
-        $this->ignore_lines    = $ignore_lines;
+        $this->ignore_lines    = (array) $ignore_lines;
 
         $this->occurences      = 0;
         $this->search_function = 'search';
@@ -183,7 +183,7 @@ class File_SearchReplace
      * Accessor for setting include_subdir variable.
      *
      * @access public
-     * @param int $include_subdir Whether to traverse subdirectories or not.
+     * @param bool $include_subdir Whether to traverse subdirectories or not.
      */
     function setIncludeSubdir($include_subdir)
     {
@@ -259,16 +259,23 @@ class File_SearchReplace
         $occurences = 0;
         $file_array = file($filename);
 
-        for ($i=0; $i<count($file_array); $i++) {
+        if (empty($this->ignore_lines) && substr(PHP_VERSION, 0, 1) == 5) { // PHP5 acceleration
+            str_replace($this->find, $this->replace, $file_array, &$occurences);
 
-            if (count($this->ignore_lines) > 0) {
-                for ($j=0; $j<count($this->ignore_lines); $j++) {
-                    if (substr($file_array[$i],0,strlen($this->ignore_lines[$j])) == $this->ignore_lines[$j]) continue 2;
+        } else { // if there are ignore lines or operating in PHP4 - S'n'R string by string
+                 // to catch number of occurences and/or filter strings
+            for ($i=0; $i<count($file_array); $i++) {
+
+                if (count($this->ignore_lines) > 0) {
+                    for ($j=0; $j<count($this->ignore_lines); $j++) {
+                        if (substr($file_array[$i],0,strlen($this->ignore_lines[$j])) == $this->ignore_lines[$j]) continue 2;
+                    }
                 }
-            }
 
-            $occurences += substr_count($file_array[$i], $this->find);
-            $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i]);
+                $occurences += substr_count($file_array[$i], $this->find);
+                $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i]);
+
+            }
 
         }
         if ($occurences > 0) $return = array($occurences, implode('', $file_array)); else $return = FALSE;
@@ -293,7 +300,7 @@ class File_SearchReplace
         clearstatcache();
 
         $file       = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
-        $occurences = count(explode($this->find, $file)) - 1;
+        $occurences = substr_count($file, $this->find);
         $file       = str_replace($this->find, $this->replace, $file);
 
         if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
@@ -417,7 +424,7 @@ class File_SearchReplace
                 if ($file == '.' OR $file == '..') continue;
 
                 if (is_dir($this->directories[$i].$file) == TRUE) {
-                    if ($this->include_subdir == 1) {
+                    if ($this->include_subdir == TRUE) {
                         $this->directories[] = $this->directories[$i].$file.'/';
                         continue;
                     } else {
