@@ -368,10 +368,10 @@ class File_SearchReplace
         clearstatcache();
 
         $file       = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
-        $occurences = 0;
-
         $local_find    = array_values((array) $this->find);
         $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+
+        $occurences = 0;
 
         foreach($local_find as $fk => $ff) {
             $occurences += preg_match_all($ff, $file, $matches);
@@ -405,9 +405,20 @@ class File_SearchReplace
         clearstatcache();
 
         $file = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
+        $local_find    = array_values((array) $this->find);
+        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
 
-        $occurences = count($matches = split($this->find, $file)) -1;
-        $file       = ereg_replace($this->find, $this->replace, $file);
+        $occurences = 0;
+
+        foreach($local_find as $fk => $ff) {
+            $occurences += count(split($ff, $file)) - 1;
+            if (!is_array($local_replace)) {
+                $fr = $local_replace;
+            } else {
+                $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+            }
+            $file = ereg_replace($ff, $fr, $file);
+        }
 
         if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
         return $return;
