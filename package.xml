@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <!-- do not use the "Type" attribute here, that one is only for
      generated package.xml files -->
@@ -19,22 +19,55 @@ but more basic str_replace routine.
       <email>richard@php.net</email>
       <role>lead</role>
     </maintainer>
+    <maintainer>
+      <user>techtonik</user>
+      <name>Anatoly Techtonik</name>
+      <email>techtonik@php.net</email>
+      <role>lead</role>
+    </maintainer>
   </maintainers>
 
   <release>
-    <version>1.0.1</version>
-    <date>2002-07-27</date>
-    <state>stable</state>
+    <version>1.1.0</version>
+    <date>2005-03-13</date>
     <license>BSD</license>
-    <notes>License change</notes>
+    <state>stable</state>
+    <notes>
+      + Introduced doReplace method - use it instead of doSearch, because 
+        functionality of doSearch will likely to be changed to operate in
+        read-only mode in future versions
+      + Now search and replace arguments can be arrays (even in ereg mode)
+      + In PHP5 use new features to count occurences
+      * Memory optimizations for normal, quick and preg modes
+      - Reset occurences counter on every call to doSearch
+    </notes>
     <filelist>
       <dir name="/" baseinstalldir="File">
         <file role="php">SearchReplace.php</file>
+      </dir>
+      <dir name="tests" baseinstalldir="/" role="test">
+        <file>setup.php</file>
+        <file>01onefile.phpt</file>
+        <file>02manyfiles.phpt</file>
+        <file>03normal_mm.phpt</file>
+        <file>04normal_bof.phpt</file>
+        <file>05quick_mm.phpt</file>
+        <file>06quick_sa_rs.phpt</file>
+        <file>07preg_ss_rs.phpt</file>
+        <file>08preg_sa_ra.phpt</file>
+        <file>09ereg_mm.phpt</file>
       </dir>
     </filelist>
   </release>
 
   <changelog>
+
+    <release>
+      <version>1.0.1</version>
+      <date>2002-07-27</date>
+      <state>stable</state>
+      <notes>License change</notes>
+    </release>
 
     <release>
       <version>1.0</version>
