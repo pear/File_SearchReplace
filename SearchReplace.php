@@ -511,13 +511,28 @@ class File_SearchReplace
     // {{{ doSearch()
     
     /**
-     * This starts the search/replace off. Call this to do the search.
+     * This starts the search/replace off. The behavior of this function will likely
+     * to be changed in future versions to work in read only mode. If you want to do
+     * actual replace with writing files - use doReplace method instead. 
+     *
+     * @access public
+     */
+    function doSearch()
+    {
+        $this->doReplace();
+    }
+    
+    // }}}
+    // {{{ doReplace()
+    
+    /**
+     * This starts the search/replace off. Call this to do the replace.
      * First do whatever files are specified, and/or if directories are specified,
      * do those too.
      *
      * @access public
      */
-    function doSearch()
+    function doReplace()
     {
         $this->occurences = 0;
         if ($this->find != '') {
