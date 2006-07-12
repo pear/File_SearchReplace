@@ -2,12 +2,12 @@
 File_SearchReplace quick mode; single file argument as an array; search - array, replacement - string
 --SKIPIF--
 <?php 
-include('./setup.php');
+include(dirname(__FILE__).'/setup.php');
 print $status; 
 ?>
 --FILE--
 <?php 
-require_once('./setup.php');
+require_once(dirname(__FILE__).'/setup.php');
 
 $search[]  = ' BGCOLOR=#EEEEEE>';
 $search[]  = '&nbsp;&nbsp;';

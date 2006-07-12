@@ -2,12 +2,12 @@
 File_SearchReplace bug or feature with search string and replace array
 --SKIPIF--
 <?php 
-include('./setup.php');
+include(dirname(__FILE__).'/setup.php');
 print $status; 
 ?>
 --FILE--
 <?php 
-require_once('./setup.php');
+require_once(dirname(__FILE__).'/setup.php');
 
 $search = "Copyright (c) 2002-2003,";
 $replace[] = "Copyprotected.";

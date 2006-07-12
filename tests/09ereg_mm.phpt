@@ -2,12 +2,12 @@
 File_SearchReplace multiple files with search/replace pairs in array
 --SKIPIF--
 <?php 
-include('./setup.php');
+include(dirname(__FILE__).'/setup.php');
 print $status; 
 ?>
 --FILE--
 <?php 
-require_once('./setup.php');
+require_once(dirname(__FILE__).'/setup.php');
 
 $search[]  = "[opyright]+";
 $replace[] = "oOoOo";

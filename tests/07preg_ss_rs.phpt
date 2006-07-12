@@ -2,12 +2,12 @@
 File_SearchReplace Preg mode s/r - strings
 --SKIPIF--
 <?php 
-include('./setup.php');
+include(dirname(__FILE__).'/setup.php');
 print $status; 
 ?>
 --FILE--
 <?php 
-require_once('./setup.php');
+require_once(dirname(__FILE__).'/setup.php');
 
 $search  = '!<TD[^>]*>.*?</TD>!is';
 $replace = '<cell>';
