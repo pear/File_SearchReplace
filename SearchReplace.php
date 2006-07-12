@@ -318,7 +318,7 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file          = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
+        $file          = fread($fp = fopen($filename, 'r'), max(1, filesize($filename))); fclose($fp);
         $local_find    = array_values((array) $this->find);
         $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
 
@@ -367,7 +367,7 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file       = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
+        $file       = fread($fp = fopen($filename, 'r'), max(1, filesize($filename))); fclose($fp);
         $local_find    = array_values((array) $this->find);
         $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
 
@@ -404,7 +404,7 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file = fread($fp = fopen($filename, 'r'), filesize($filename)); fclose($fp);
+        $file = fread($fp = fopen($filename, 'r'), max(1, filesize($filename))); fclose($fp);
         $local_find    = array_values((array) $this->find);
         $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
 
