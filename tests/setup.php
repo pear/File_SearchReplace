@@ -13,7 +13,7 @@ $tmpdir = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
            ? getenv('TMP')
            : '/tmp';
 
-chdir($tmpdir);
+if (!chdir($tmpdir)) exit("Can't change into temporary directory");
 
 @mkdir('File_SearchReplace/');
 @mkdir('File_SearchReplace/dir');
@@ -99,10 +99,11 @@ $conts[] = "/**
  * @package File
  */";
 
+$files[] = "File_SearchReplace/empty.file";
+$conts[] = "";
+
 foreach ($files as $k => $f) {
     $f = fopen($tmpdir."/".$f, "w");
     fwrite($f, $conts[$k]);
     fclose($f);
 }
-
-?>
