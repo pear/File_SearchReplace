@@ -28,18 +28,12 @@ but more basic str_replace routine.
   </maintainers>
 
   <release>
-    <version>1.1.0</version>
-    <date>2005-03-13</date>
+    <version>1.1.2</version>
+    <date>2007-03-25</date>
     <license>BSD</license>
     <state>stable</state>
     <notes>
-      + Introduced doReplace method - use it instead of doSearch, because 
-        functionality of doSearch will likely to be changed to operate in
-        read-only mode in future versions
-      + Now search and replace arguments can be arrays (even in ereg mode)
-      + In PHP5 use new features to count occurences
-      * Memory optimizations for normal, quick and preg modes
-      - Reset occurences counter on every call to doSearch
+      - bug #10395 - typo in method quickSearch doesn't allow function to work with PHP5
     </notes>
     <filelist>
       <dir name="/" baseinstalldir="File">
@@ -61,6 +55,29 @@ but more basic str_replace routine.
   </release>
 
   <changelog>
+    <release>
+      <version>1.1.1</version>
+      <date>2006-07-12</date>
+      <state>stable</state>
+      <notes>
+        - bug #8103 - unnecessary warning on empty files
+      </notes>
+    </release>
+
+    <release>
+      <version>1.1.0</version>
+      <date>2005-03-13</date>
+      <state>stable</state>
+      <notes>
+        + Introduced doReplace method - use it instead of doSearch, because 
+          functionality of doSearch will likely to be changed to operate in
+          read-only mode in future versions
+        + Now search and replace arguments can be arrays (even in ereg mode)
+        + In PHP5 use new features to count occurences
+        * Memory optimizations for normal, quick and preg modes
+        - Reset occurences counter on every call to doSearch
+      </notes>
+    </release>
 
     <release>
       <version>1.0.1</version>
