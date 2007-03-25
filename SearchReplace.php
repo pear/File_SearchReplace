@@ -332,7 +332,7 @@ class File_SearchReplace
         // because I haven't decided yet whether it is bug or feature)
 
         if ($this->php5) {
-            $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], $counted);
+            $file = str_replace($this->find, $this->replace, $file, $counted);
             $occurences += $counted;
         } else {
             foreach ($local_find as $fk => $ff) {
