@@ -1,98 +1,131 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<!-- do not use the "Type" attribute here, that one is only for
-     generated package.xml files -->
-<package>
-
-  <name>File_SearchReplace</name>
-  <summary>Performs search and replace routines</summary>
-  <description>
-Provides various functions to perform search/replace
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>File_SearchReplace</name>
+ <channel>pear.php.net</channel>
+ <summary>Performs search and replace routines</summary>
+ <description>Provides various functions to perform search/replace
 on files. Preg/Ereg regex supported along with faster
 but more basic str_replace routine.
-  </description>
-
-  <maintainers>
-    <maintainer>
-      <user>richard</user>
-      <name>Richard Heyes</name>
-      <email>richard@php.net</email>
-      <role>lead</role>
-    </maintainer>
-    <maintainer>
-      <user>techtonik</user>
-      <name>Anatoly Techtonik</name>
-      <email>techtonik@php.net</email>
-      <role>lead</role>
-    </maintainer>
-  </maintainers>
-
+  
+ </description>
+ <lead>
+  <name>Richard Heyes</name>
+  <user>richard</user>
+  <email>richard@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Anatoly Techtonik</name>
+  <user>techtonik</user>
+  <email>techtonik@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2007-04-08</date>
+ <time>23:24:08</time>
+ <version>
+  <release>1.1.2</release>
+  <api>1.1.2</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+ <notes>- bug #10395 - typo in method quickSearch doesn&apos;t allow function to work with PHP5
+ </notes>
+ <contents>
+  <dir name="/">
+   <dir name="tests">
+    <file baseinstalldir="/" name="01onefile.phpt" role="test" />
+    <file baseinstalldir="/" name="02manyfiles.phpt" role="test" />
+    <file baseinstalldir="/" name="03normal_mm.phpt" role="test" />
+    <file baseinstalldir="/" name="04normal_bof.phpt" role="test" />
+    <file baseinstalldir="/" name="05quick_mm.phpt" role="test" />
+    <file baseinstalldir="/" name="06quick_sa_rs.phpt" role="test" />
+    <file baseinstalldir="/" name="07preg_ss_rs.phpt" role="test" />
+    <file baseinstalldir="/" name="08preg_sa_ra.phpt" role="test" />
+    <file baseinstalldir="/" name="09ereg_mm.phpt" role="test" />
+    <file baseinstalldir="/" name="setup.php" role="test" />
+   </dir> <!-- //tests -->
+   <file baseinstalldir="File" name="SearchReplace.php" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
   <release>
-    <version>1.1.2</version>
-    <date>2007-03-25</date>
-    <license>BSD</license>
-    <state>stable</state>
-    <notes>
-      - bug #10395 - typo in method quickSearch doesn't allow function to work with PHP5
-    </notes>
-    <filelist>
-      <dir name="/" baseinstalldir="File">
-        <file role="php">SearchReplace.php</file>
-      </dir>
-      <dir name="tests" baseinstalldir="/" role="test">
-        <file>setup.php</file>
-        <file>01onefile.phpt</file>
-        <file>02manyfiles.phpt</file>
-        <file>03normal_mm.phpt</file>
-        <file>04normal_bof.phpt</file>
-        <file>05quick_mm.phpt</file>
-        <file>06quick_sa_rs.phpt</file>
-        <file>07preg_ss_rs.phpt</file>
-        <file>08preg_sa_ra.phpt</file>
-        <file>09ereg_mm.phpt</file>
-      </dir>
-    </filelist>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-07-12</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>- bug #8103 - unnecessary warning on empty files
+   </notes>
   </release>
-
-  <changelog>
-    <release>
-      <version>1.1.1</version>
-      <date>2006-07-12</date>
-      <state>stable</state>
-      <notes>
-        - bug #8103 - unnecessary warning on empty files
-      </notes>
-    </release>
-
-    <release>
-      <version>1.1.0</version>
-      <date>2005-03-13</date>
-      <state>stable</state>
-      <notes>
-        + Introduced doReplace method - use it instead of doSearch, because 
-          functionality of doSearch will likely to be changed to operate in
-          read-only mode in future versions
-        + Now search and replace arguments can be arrays (even in ereg mode)
-        + In PHP5 use new features to count occurences
-        * Memory optimizations for normal, quick and preg modes
-        - Reset occurences counter on every call to doSearch
-      </notes>
-    </release>
-
-    <release>
-      <version>1.0.1</version>
-      <date>2002-07-27</date>
-      <state>stable</state>
-      <notes>License change</notes>
-    </release>
-
-    <release>
-      <version>1.0</version>
-      <date>2002-04-21</date>
-      <state>stable</state>
-      <notes>Initial release</notes>
-    </release>
-
-  </changelog>
-
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-03-13</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>+ Introduced doReplace method - use it instead of doSearch, because 
+  functionality of doSearch will likely to be changed to operate in
+  read-only mode in future versions
++ Now search and replace arguments can be arrays (even in ereg mode)
++ In PHP5 use new features to count occurences
+* Memory optimizations for normal, quick and preg modes
+- Reset occurences counter on every call to doSearch
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-07-27</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>License change
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-04-21</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>Initial release
+   </notes>
+  </release>
+ </changelog>
 </package>
