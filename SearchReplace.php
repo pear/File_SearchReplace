@@ -261,16 +261,18 @@ class File_SearchReplace
         $occurences = 0;
         $file_array = file($filename);
 
+        // just for the sake of catching occurences
+        $local_find    = array_values((array) $this->find);
+        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+
         if (empty($this->ignore_lines) && $this->php5) { // PHP5 acceleration
-            $file_array = str_replace($this->find, $this->replace, $file_array, $occurences);
+            $file_array = str_replace($local_find, $local_replace, $file_array, $occurences);
 
         } else { // str_replace() doesn't return number of occurences in PHP4
                  // so we need to count them manually and/or filter strings
             $ignore_lines_num = count($this->ignore_lines);
 
-            // just for the sake of catching occurences
-            $local_find    = array_values((array) $this->find);
-            $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+
 
             for ($i=0; $i < count($file_array); $i++) {
 
