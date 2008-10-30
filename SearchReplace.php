@@ -33,6 +33,7 @@
  * @category File
  * @package  File_SearchReplace
  * @author   Richard Heyes <richard@phpguru.org>
+ * @license  http://www.opensource.org/licenses/bsd-license.php BSD
  * @version  CVS: $Id$
  * @link     http://pear.php.net/File_SearchReplace
  */
@@ -43,6 +44,7 @@
  * @category File
  * @package  File_SearchReplace
  * @author   Richard Heyes <richard@phpguru.org>
+ * @license  http://www.opensource.org/licenses/bsd-license.php BSD
  * @link     http://pear.php.net/File_SearchReplace
  */
 class File_SearchReplace
@@ -292,6 +294,7 @@ class File_SearchReplace
     function search($filename)
     {
         $occurences = 0;
+
         $lines = file($filename);
 
         // just for the sake of catching occurences

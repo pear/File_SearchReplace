@@ -15,7 +15,7 @@ but more basic str_replace routine.
   <name>Richard Heyes</name>
   <user>richard</user>
   <email>richard@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Anatoly Techtonik</name>
@@ -23,18 +23,26 @@ but more basic str_replace routine.
   <email>techtonik@php.net</email>
   <active>yes</active>
  </lead>
- <date>2007-04-08</date>
+ <lead>
+  <name>Daniel O'Connor</name>
+  <user>doconnor</user>
+  <email>daniel.oconnor@gmail.com</email>
+  <active>yes</active>
+ </lead>
+ <date>2008-10-31</date>
  <time>23:24:08</time>
  <version>
-  <release>1.1.2</release>
-  <api>1.1.2</api>
+  <release>1.1.3</release>
+  <api>1.1.3</api>
  </version>
  <stability>
   <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
- <notes>- bug #10395 - typo in method quickSearch doesn&apos;t allow function to work with PHP5
+ <notes>
+Bug #14892 - E_NOTICE / Unit test failure
+Request #14917 - PHPCS / General refactoring, use of file_get_contents pushes minimum PHP version to 4.3.0
  </notes>
  <contents>
   <dir name="/">
@@ -56,7 +64,7 @@ but more basic str_replace routine.
  <dependencies>
   <required>
    <php>
-    <min>4.0.0</min>
+    <min>4.3.0</min>
    </php>
    <pearinstaller>
     <min>1.4.0b1</min>
