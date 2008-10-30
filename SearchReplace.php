@@ -1,53 +1,53 @@
 <?php
-// +-----------------------------------------------------------------------+
-// | Copyright (c) 2002-2005, Richard Heyes                                |
-// | All rights reserved.                                                  |
-// |                                                                       |
-// | Redistribution and use in source and binary forms, with or without    |
-// | modification, are permitted provided that the following conditions    |
-// | are met:                                                              |
-// |                                                                       |
-// | o Redistributions of source code must retain the above copyright      |
-// |   notice, this list of conditions and the following disclaimer.       |
-// | o Redistributions in binary form must reproduce the above copyright   |
-// |   notice, this list of conditions and the following disclaimer in the |
-// |   documentation and/or other materials provided with the distribution.|
-// | o The names of the authors may not be used to endorse or promote      |
-// |   products derived from this software without specific prior written  |
-// |   permission.                                                         |
-// |                                                                       |
-// | THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS   |
-// | "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT     |
-// | LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR |
-// | A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT  |
-// | OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, |
-// | SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT      |
-// | LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, |
-// | DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY |
-// | THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT   |
-// | (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE |
-// | OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  |
-// |                                                                       |
-// +-----------------------------------------------------------------------+
-// | Author: Richard Heyes <richard@phpguru.org>                           |
-// +-----------------------------------------------------------------------+
-//
-// $Id$
-//
-// Search and Replace Utility
-//
+/**
+ * Copyright (c) 2002-2005, Richard Heyes
+ * All rights reserved.
+ *
+ * PHP version 4, 5
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  o Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  o Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *  o The names of the authors may not be used to endorse or promote
+ *    products derived from this software without specific prior written
+ *    permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @category File
+ * @package  File_SearchReplace
+ * @author   Richard Heyes <richard@phpguru.org>
+ * @version  CVS: $Id$
+ * @link     http://pear.php.net/File_SearchReplace
+ */
 
 /**
  * Search and Replace Utility
  *
- *
- * @author  Richard Heyes <richard@phpguru.org>
- * @version 1.0
- * @package File
+ * @category File
+ * @package  File_SearchReplace
+ * @author   Richard Heyes <richard@phpguru.org>
+ * @link     http://pear.php.net/File_SearchReplace
  */
 class File_SearchReplace
 {
-    
+
     // {{{ Properties (All private)
 
     var $find;
@@ -68,14 +68,17 @@ class File_SearchReplace
     /**
      * Sets up the object
      *
+     * @param string $find           The string/regex to find.
+     * @param string $replace        The string/regex to replace $find with.
+     * @param array  $files          The file(s) to perform this operation on.
+     * @param array  $directories    The directories to perform this operation on.
+     * @param bool   $include_subdir If performing on directories, whether to
+     *                               traverse subdirectories.
+     * @param array  $ignore_lines   Ignore lines beginning with any of the strings
+     *                               in this array. This
+     *                               feature only works with the "normal" search.
+     *
      * @access public
-     * @param string $find                      The string/regex to find.
-     * @param string $replace                   The string/regex to replace $find with.
-     * @param array  $files                     The file(s) to perform this operation on.
-     * @param array  $directories    (optional) The directories to perform this operation on.
-     * @param bool   $include_subdir            If performing on directories, whether to traverse subdirectories.
-     * @param array  $ignore_lines              Ignore lines beginning with any of the strings in this array. This
-     *                                          feature only works with the "normal" search.
      */
     function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = TRUE, $ignore_lines = array())
     {
@@ -128,8 +131,10 @@ class File_SearchReplace
     /**
      * Accessor for setting find variable.
      *
+     * @param mixed $find The string/regex to find, or array of strings
+     *
      * @access public
-     * @param string $find The string/regex to find.
+     * @return void
      */
     function setFind($find)
     {
@@ -142,8 +147,11 @@ class File_SearchReplace
     /**
      * Accessor for setting replace variable.
      *
+     * @param mixed $replace The string/regex to replace the find 
+     * string/regex with, or array of strings
+     *
      * @access public
-     * @param string $replace The string/regex to replace the find string/regex with.
+     * @return void
      */
     function setReplace($replace)
     {
@@ -156,8 +164,10 @@ class File_SearchReplace
     /**
      * Accessor for setting files variable.
      *
-     * @access public
      * @param array $files The file(s) to perform this operation on.
+     *
+     * @access public
+     * @return void
      */
     function setFiles($files)
     {
@@ -170,8 +180,10 @@ class File_SearchReplace
     /**
      * Accessor for setting directories variable.
      *
-     * @access public
      * @param array $directories The directories to perform this operation on.
+     *
+     * @access public
+     * @return void
      */
     function setDirectories($directories)
     {
@@ -184,8 +196,10 @@ class File_SearchReplace
     /**
      * Accessor for setting include_subdir variable.
      *
-     * @access public
      * @param bool $include_subdir Whether to traverse subdirectories or not.
+     *
+     * @access public
+     * @return void
      */
     function setIncludeSubdir($include_subdir)
     {
@@ -198,9 +212,12 @@ class File_SearchReplace
     /**
      * Accessor for setting ignore_lines variable.
      *
-     * @access public
-     * @param array $ignore_lines Ignore lines beginning with any of the strings in this array. This
+     * @param array $ignore_lines Ignore lines beginning with any of the
+     *                            strings in this array. This
      *                            feature only works with the "normal" search.
+     *
+     * @access public
+     * @return void
      */
     function setIgnoreLines($ignore_lines)
     {
@@ -213,12 +230,18 @@ class File_SearchReplace
     /**
      * Function to determine which search function is used.
      *
+     * Can be any one of:
+     *  normal - Default search. Goes line by line. Ignore lines feature
+     *           only works with this type.
+     *  quick  - Uses str_replace for straight replacement throughout
+     *           file. Quickest of the lot.
+     *  preg   - Uses preg_replace(), so any valid regex 
+     *  ereg   - Uses ereg_replace(), so any valid regex 
+     *
+     * @param string $search_function The search function that should be used.
+     *
      * @access public
-     * @param string The search function that should be used. Can be any one of:
-     *               normal - Default search. Goes line by line. Ignore lines feature only works with this type.
-     *               quick  - Uses str_replace for straight replacement throughout file. Quickest of the lot.
-     *               preg   - Uses preg_replace(), so any regex valid with this function is valid here.
-     *               ereg   - Uses ereg_replace(), so any regex valid with this function is valid here.
+     * @return void  
      */
     function setSearchFunction($search_function)
     {
@@ -251,10 +274,12 @@ class File_SearchReplace
     /**
      * Default ("normal") search routine.
      *
-     * @access private
      * @param string $filename The filename to search and replace upon.
-     * @return array Will return an array containing the new file contents and the number of occurences.
-     *               Will return FALSE if there are no occurences.
+     *
+     * @access private
+     * @return array Will return an array containing the new file contents
+     *               and the number of occurences.
+     *               Will return false if there are no occurences.
      */
     function search($filename)
     {
@@ -310,10 +335,12 @@ class File_SearchReplace
     /**
      * Quick search routine.
      *
-     * @access private
      * @param string $filename The filename to search and replace upon.
-     * @return array Will return an array containing the new file contents and the number of occurences.
-     *               Will return FALSE if there are no occurences.
+     *
+     * @access private
+     * @return array Will return an array containing the new file contents
+     *               and the number of occurences.
+     *               Will return false if there are no occurences.
      */
     function quickSearch($filename)
     {
@@ -359,10 +386,12 @@ class File_SearchReplace
     /**
      * Preg search routine.
      *
-     * @access private
      * @param string $filename The filename to search and replace upon.
-     * @return array Will return an array containing the new file contents and the number of occurences.
-     *               Will return FALSE if there are no occurences.
+     *
+     * @access private
+     * @return array Will return an array containing the new file contents
+     *               and the number of occurences.
+     *               Will return false if there are no occurences.
      */
     function pregSearch($filename)
     {
@@ -396,10 +425,12 @@ class File_SearchReplace
     /**
      * Ereg search routine.
      *
-     * @access private
      * @param string $filename The filename to search and replace upon.
-     * @return array Will return an array containing the new file contents and the number of occurences.
-     *               Will return FALSE if there are no occurences.
+     *
+     * @access private
+     * @return array Will return an array containing the new file contents
+     *               and the number of occurences.
+     *               Will return false if there are no occurences.
      */
     function eregSearch($filename)
     {
@@ -429,13 +460,15 @@ class File_SearchReplace
 
     // }}}
     // {{{ writeout()
-    
+
     /**
      * Function to writeout the file contents.
      *
-     * @access private
      * @param string $filename The filename of the file to write.
      * @param string $contents The contents to write to the file.
+     *
+     * @access private
+     * @return void
      */
     function writeout($filename, $contents)
     {
@@ -457,8 +490,10 @@ class File_SearchReplace
     /**
      * Function called by doSearch() to go through any files that need searching.
      *
-     * @access private
      * @param string $ser_func The search function to use.
+     *
+     * @access private
+     * @return void
      */
     function doFiles($ser_func)
     {
@@ -478,10 +513,13 @@ class File_SearchReplace
     // {{{ doDirectories()
 
     /**
-     * Function called by doSearch() to go through any directories that need searching.
+     * Function called by doSearch() to go through any directories that
+     * need searching.
+     *
+     * @param string $ser_func The search function to use.
      *
      * @access private
-     * @param string $ser_func The search function to use.
+     * @return void
      */
     function doDirectories($ser_func)
     {
@@ -511,28 +549,30 @@ class File_SearchReplace
 
     // }}}
     // {{{ doSearch()
-    
+
     /**
      * This starts the search/replace off. The behavior of this function will likely
      * to be changed in future versions to work in read only mode. If you want to do
-     * actual replace with writing files - use doReplace method instead. 
+     * actual replace with writing files - use doReplace method instead.
      *
      * @access public
+     * @return void
      */
     function doSearch()
     {
         $this->doReplace();
     }
-    
+
     // }}}
     // {{{ doReplace()
-    
+
     /**
      * This starts the search/replace off. Call this to do the replace.
      * First do whatever files are specified, and/or if directories are specified,
      * do those too.
      *
      * @access public
+     * @return void
      */
     function doReplace()
     {
@@ -542,7 +582,7 @@ class File_SearchReplace
             if ($this->directories != '')                                                   $this->doDirectories($this->search_function);
         }
     }
-    
+
     // }}}
 
 }
