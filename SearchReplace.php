@@ -80,7 +80,7 @@ class File_SearchReplace
      *
      * @access public
      */
-    function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = TRUE, $ignore_lines = array())
+    function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = true, $ignore_lines = array())
     {
 
         $this->find            = $find;
@@ -92,7 +92,7 @@ class File_SearchReplace
 
         $this->occurences      = 0;
         $this->search_function = 'search';
-        $this->php5            = (substr(PHP_VERSION, 0, 1) == 5) ? TRUE : FALSE;
+        $this->php5            = (substr(PHP_VERSION, 0, 1) == 5) ? true : false;
         $this->last_error      = '';
 
     }
@@ -247,23 +247,23 @@ class File_SearchReplace
     {
         switch($search_function) {
         case 'normal': $this->search_function = 'search';
-            return TRUE;
+            return true;
             break;
 
         case 'quick' : $this->search_function = 'quickSearch';
-            return TRUE;
+            return true;
             break;
 
         case 'preg'  : $this->search_function = 'pregSearch';
-            return TRUE;
+            return true;
             break;
 
         case 'ereg'  : $this->search_function = 'eregSearch';
-            return TRUE;
+            return true;
             break;
 
         default      : $this->last_error      = 'Invalid search function specified';
-            return FALSE;
+            return false;
             break;
         }
     }
@@ -303,7 +303,7 @@ class File_SearchReplace
 
                 if ($ignore_lines_num > 0) {
                     for ($j=0; $j < $ignore_lines_num; $j++) {
-                        if (substr($file_array[$i],0,strlen($this->ignore_lines[$j])) == $this->ignore_lines[$j]) continue 2;
+                        if (substr($file_array[$i], 0, strlen($this->ignore_lines[$j])) == $this->ignore_lines[$j]) continue 2;
                     }
                 }
 
@@ -324,7 +324,7 @@ class File_SearchReplace
             }
 
         }
-        if ($occurences > 0) $return = array($occurences, implode('', $file_array)); else $return = FALSE;
+        if ($occurences > 0) $return = array($occurences, implode('', $file_array)); else $return = false;
         return $return;
 
     }
@@ -375,7 +375,7 @@ class File_SearchReplace
             }
         }
 
-        if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
+        if ($occurences > 0) $return = array($occurences, $file); else $return = false;
         return $return;
 
     }
@@ -404,7 +404,7 @@ class File_SearchReplace
 
         $occurences = 0;
 
-        foreach($local_find as $fk => $ff) {
+        foreach ($local_find as $fk => $ff) {
             $occurences += preg_match_all($ff, $file, $matches);
             if (!is_array($local_replace)) {
                 $fr = $local_replace;
@@ -414,7 +414,7 @@ class File_SearchReplace
             $file = preg_replace($ff, $fr, $file);
         }
 
-        if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
+        if ($occurences > 0) $return = array($occurences, $file); else $return = false;
         return $return;
 
     }
@@ -443,7 +443,7 @@ class File_SearchReplace
 
         $occurences = 0;
 
-        foreach($local_find as $fk => $ff) {
+        foreach ($local_find as $fk => $ff) {
             $occurences += count(split($ff, $file)) - 1;
             if (!is_array($local_replace)) {
                 $fr = $local_replace;
@@ -453,7 +453,7 @@ class File_SearchReplace
             $file = ereg_replace($ff, $fr, $file);
         }
 
-        if ($occurences > 0) $return = array($occurences, $file); else $return = FALSE;
+        if ($occurences > 0) $return = array($occurences, $file); else $return = false;
         return $return;
 
     }
@@ -474,9 +474,9 @@ class File_SearchReplace
     {
 
         if ($fp = @fopen($filename, 'w')) {
-            flock($fp,2);
+            flock($fp, 2);
             fwrite($fp, $contents);
-            flock($fp,3);
+            flock($fp, 3);
             fclose($fp);
         } else {
             $this->last_error = 'Could not open file: '.$filename;
@@ -500,9 +500,9 @@ class File_SearchReplace
         if (!is_array($this->files)) $this->files = explode(',', $this->files);
         for ($i=0; $i<count($this->files); $i++) {
             if ($this->files[$i] == '.' OR $this->files[$i] == '..') continue;
-            if (is_dir($this->files[$i]) == TRUE) continue;
+            if (is_dir($this->files[$i]) == true) continue;
             $newfile = $this->$ser_func($this->files[$i]);
-            if (is_array($newfile) == TRUE){
+            if (is_array($newfile) == true) {
                 $this->writeout($this->files[$i], $newfile[1]);
                 $this->occurences += $newfile[0];
             }
@@ -529,8 +529,8 @@ class File_SearchReplace
             while ($file = readdir($dh)) {
                 if ($file == '.' OR $file == '..') continue;
 
-                if (is_dir($this->directories[$i].$file) == TRUE) {
-                    if ($this->include_subdir == TRUE) {
+                if (is_dir($this->directories[$i].$file) == true) {
+                    if ($this->include_subdir == true) {
                         $this->directories[] = $this->directories[$i].$file.'/';
                         continue;
                     } else {
@@ -539,7 +539,7 @@ class File_SearchReplace
                 }
 
                 $newfile = $this->$ser_func($this->directories[$i].$file);
-                if (is_array($newfile) == TRUE) {
+                if (is_array($newfile) == true) {
                     $this->writeout($this->directories[$i].$file, $newfile[1]);
                     $this->occurences += $newfile[0];
                 }
