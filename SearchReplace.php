@@ -84,12 +84,14 @@ class File_SearchReplace
                                 $include_subdir = true, $ignore_lines = array())
     {
 
-        $this->find            = $find;
-        $this->replace         = $replace;
-        $this->files           = $files;
-        $this->directories     = $directories;
-        $this->include_subdir  = $include_subdir;
-        $this->ignore_lines    = (array) $ignore_lines;
+        $this->setFind($find);
+        $this->setReplace($replace);
+        $this->setFiles($files);
+
+        $this->setDirectories($directories);
+        $this->setIncludeSubdir($include_subdir);
+
+        $this->setIgnoreLines((array) $ignore_lines);
 
         $this->occurences      = 0;
         $this->search_function = 'search';
@@ -293,11 +295,12 @@ class File_SearchReplace
         $file_array = file($filename);
 
         // just for the sake of catching occurences
-        $local_find    = array_values((array) $this->find);
-        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+        $local_find    = $this->getFind();
+        $local_replace = $this->getReplace();
 
         if (empty($this->ignore_lines) && $this->php5) { // PHP5 acceleration
-            $file_array = str_replace($local_find, $local_replace, $file_array, $occurences);
+            $file_array = str_replace($local_find, $local_replace,
+                                      $file_array, $occurences);
 
         } else { // str_replace() doesn't return number of occurences in PHP4
                  // so we need to count them manually and/or filter strings
@@ -314,7 +317,9 @@ class File_SearchReplace
                 }
 
                 if ($this->php5) {
-                    $file_array[$i] = str_replace($this->find, $this->replace, $file_array[$i], $counted);
+                    $file_array[$i] = str_replace($local_find, $local_replace,
+                                                  $file_array[$i], $counted);
+
                     $occurences += $counted;
                 } else {
                     foreach ($local_find as $fk => $ff) {
@@ -322,7 +327,10 @@ class File_SearchReplace
                         if (!is_array($local_replace)) {
                             $fr = $local_replace;
                         } else {
-                            $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                            $fr = "";
+                            if (isset($local_replace[$fk])) {
+                                $fr = $local_replace[$fk];
+                            }
                         }
                         $file_array[$i] = str_replace($ff, $fr, $file_array[$i]);
                     }
@@ -330,9 +338,12 @@ class File_SearchReplace
             }
 
         }
-        if ($occurences > 0) $return = array($occurences, implode('', $file_array)); else $return = false;
-        return $return;
 
+        if ($occurences > 0) {
+            return array($occurences, implode('', $file_array));
+        }
+
+        return false;
     }
 
     // }}}
@@ -353,11 +364,12 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file          = fread($fp = fopen($filename, 'r'), max(1, filesize($filename))); fclose($fp);
-        $local_find    = array_values((array) $this->find);
-        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+        $file = file_get_contents($filename);
 
-        $occurences    = 0;
+        $local_find    = $this->getFind();
+        $local_replace = $this->getReplace();
+
+        $occurences = 0;
 
         // logic is the same as in str_replace function with one exception:
         //   if <search> is a string and <replacement> is an array - substitution
@@ -368,6 +380,7 @@ class File_SearchReplace
 
         if ($this->php5) {
             $file = str_replace($this->find, $this->replace, $file, $counted);
+
             $occurences += $counted;
         } else {
             foreach ($local_find as $fk => $ff) {
@@ -375,14 +388,17 @@ class File_SearchReplace
                 if (!is_array($local_replace)) {
                     $fr = $local_replace;
                 } else {
-                    $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                    $fr = isset($local_replace[$fk]) ? $local_replace[$fk] : "";
                 }
                 $file = str_replace($ff, $fr, $file);
             }
         }
 
-        if ($occurences > 0) $return = array($occurences, $file); else $return = false;
-        return $return;
+        if ($occurences > 0) {
+            return array($occurences, $file);
+        }
+
+        return false;
 
     }
 
@@ -404,9 +420,10 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file       = fread($fp = fopen($filename, 'r'), max(1, filesize($filename))); fclose($fp);
-        $local_find    = array_values((array) $this->find);
-        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+        $file = file_get_contents($filename);
+
+        $local_find    = $this->getFind();
+        $local_replace = $this->getReplace();
 
         $occurences = 0;
 
@@ -415,13 +432,16 @@ class File_SearchReplace
             if (!is_array($local_replace)) {
                 $fr = $local_replace;
             } else {
-                $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                $fr = isset($local_replace[$fk]) ? $local_replace[$fk] : "";
             }
             $file = preg_replace($ff, $fr, $file);
         }
 
-        if ($occurences > 0) $return = array($occurences, $file); else $return = false;
-        return $return;
+        if ($occurences > 0) {
+            return array($occurences, $file);
+        }
+
+        return false;
 
     }
 
@@ -443,9 +463,10 @@ class File_SearchReplace
 
         clearstatcache();
 
-        $file = fread($fp = fopen($filename, 'r'), max(1, filesize($filename))); fclose($fp);
-        $local_find    = array_values((array) $this->find);
-        $local_replace = (is_array($this->replace)) ? array_values($this->replace) : $this->replace;
+        $file = file_get_contents($filename);
+
+        $local_find    = $this->getFind();
+        $local_replace = $this->getReplace();
 
         $occurences = 0;
 
@@ -454,14 +475,16 @@ class File_SearchReplace
             if (!is_array($local_replace)) {
                 $fr = $local_replace;
             } else {
-                $fr = (isset($local_replace[$fk])) ? $local_replace[$fk] : "";
+                $fr = isset($local_replace[$fk]) ? $local_replace[$fk] : "";
             }
             $file = ereg_replace($ff, $fr, $file);
         }
 
-        if ($occurences > 0) $return = array($occurences, $file); else $return = false;
-        return $return;
+        if ($occurences > 0) {
+            return array($occurences, $file);
+        }
 
+        return false;
     }
 
     // }}}
@@ -538,7 +561,10 @@ class File_SearchReplace
      */
     function doDirectories($ser_func)
     {
-        if (!is_array($this->directories)) $this->directories = explode(',', $this->directories);
+        if (!is_array($this->directories)) {
+            $this->directories = explode(',', $this->directories);
+        }
+
         for ($i=0; $i<count($this->directories); $i++) {
             $dh = opendir($this->directories[$i]);
             while ($file = readdir($dh)) {
@@ -605,5 +631,30 @@ class File_SearchReplace
 
     // }}}
 
+    /**
+     * Helper method to ensure we always have an array of things to find.
+     *
+     * @access public
+     * @return array
+     */
+    function getFind()
+    {
+        return array_values((array) $this->find);
+    }
+
+    /**
+     * Helper method to fetch replace
+     *
+     * @access public
+     * @return mixed
+     */
+    function getReplace()
+    {
+        if (is_array($this->replace)) {
+            return array_values($this->replace);
+        }
+
+        return $this->replace;
+    }
 }
 ?>
