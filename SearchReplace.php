@@ -292,15 +292,15 @@ class File_SearchReplace
     function search($filename)
     {
         $occurences = 0;
-        $file_array = file($filename);
+        $lines = file($filename);
 
         // just for the sake of catching occurences
         $local_find    = $this->getFind();
         $local_replace = $this->getReplace();
 
         if (empty($this->ignore_lines) && $this->php5) { // PHP5 acceleration
-            $file_array = str_replace($local_find, $local_replace,
-                                      $file_array, $occurences);
+            $lines = str_replace($local_find, $local_replace,
+                                      $lines, $occurences);
 
         } else { // str_replace() doesn't return number of occurences in PHP4
                  // so we need to count them manually and/or filter strings
@@ -308,22 +308,25 @@ class File_SearchReplace
 
 
 
-            for ($i=0; $i < count($file_array); $i++) {
+            foreach ($lines as $i => $line) {
 
                 if ($ignore_lines_num > 0) {
-                    for ($j=0; $j < $ignore_lines_num; $j++) {
-                        if (substr($file_array[$i], 0, strlen($this->ignore_lines[$j])) == $this->ignore_lines[$j]) continue 2;
+                    for ($j = 0; $j < $ignore_lines_num; $j++) {
+                        $text = substr($line, 0, strlen($this->ignore_lines[$j]));
+                        if ($text == $this->ignore_lines[$j]) {
+                            continue 2;
+                        }
                     }
                 }
 
                 if ($this->php5) {
-                    $file_array[$i] = str_replace($local_find, $local_replace,
-                                                  $file_array[$i], $counted);
+                    $lines[$i] = str_replace($local_find, $local_replace,
+                                                  $line, $counted);
 
                     $occurences += $counted;
                 } else {
                     foreach ($local_find as $fk => $ff) {
-                        $occurences += substr_count($file_array[$i], $ff);
+                        $occurences += substr_count($line, $ff);
                         if (!is_array($local_replace)) {
                             $fr = $local_replace;
                         } else {
@@ -332,7 +335,7 @@ class File_SearchReplace
                                 $fr = $local_replace[$fk];
                             }
                         }
-                        $file_array[$i] = str_replace($ff, $fr, $file_array[$i]);
+                        $lines[$i] = str_replace($ff, $fr, $line);
                     }
                 }
             }
@@ -340,7 +343,7 @@ class File_SearchReplace
         }
 
         if ($occurences > 0) {
-            return array($occurences, implode('', $file_array));
+            return array($occurences, implode('', $lines));
         }
 
         return false;
@@ -565,23 +568,25 @@ class File_SearchReplace
             $this->directories = explode(',', $this->directories);
         }
 
-        for ($i=0; $i<count($this->directories); $i++) {
-            $dh = opendir($this->directories[$i]);
+        foreach ($this->directories as $directory) {
+            $dh = opendir($directory);
             while ($file = readdir($dh)) {
-                if ($file == '.' OR $file == '..') continue;
+                if ($file == '.' OR $file == '..') {
+                    continue;
+                }
 
-                if (is_dir($this->directories[$i].$file) == true) {
-                    if ($this->include_subdir == true) {
-                        $this->directories[] = $this->directories[$i].$file.'/';
+                if (is_dir($directory.$file)) {
+                    if ($this->include_subdir) {
+                        $this->directories[] = $directory.$file.'/';
                         continue;
                     } else {
                         continue;
                     }
                 }
 
-                $newfile = $this->$ser_func($this->directories[$i].$file);
+                $newfile = $this->$ser_func($directory.$file);
                 if (is_array($newfile) == true) {
-                    $this->writeout($this->directories[$i].$file, $newfile[1]);
+                    $this->writeout($directory.$file, $newfile[1]);
                     $this->occurences += $newfile[0];
                 }
             }
