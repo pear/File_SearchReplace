@@ -75,6 +75,19 @@ Request #14917 - PHPCS / General refactoring, use of file_get_contents pushes mi
  <changelog>
   <release>
    <version>
+    <release>1.1.2</release>
+    <api>1.1.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-08</date>
+   <license uri="http://www.opensource.org/licenses/bsd-license.php">BSD</license>
+   <notes>- bug #10395 - typo in method quickSearch doesn&apos;t allow function to work with PHP5 </notes>
+  </release>
+  <release>
+   <version>
     <release>1.1.1</release>
     <api>1.1.1</api>
    </version>
