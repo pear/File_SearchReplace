@@ -80,7 +80,8 @@ class File_SearchReplace
      *
      * @access public
      */
-    function File_SearchReplace($find, $replace, $files, $directories = '', $include_subdir = true, $ignore_lines = array())
+    function File_SearchReplace($find, $replace, $files, $directories = '',
+                                $include_subdir = true, $ignore_lines = array())
     {
 
         $this->find            = $find;
@@ -92,7 +93,7 @@ class File_SearchReplace
 
         $this->occurences      = 0;
         $this->search_function = 'search';
-        $this->php5            = (substr(PHP_VERSION, 0, 1) == 5) ? true : false;
+        $this->php5            = substr(PHP_VERSION, 0, 1) == 5;
         $this->last_error      = '';
 
     }
@@ -147,7 +148,7 @@ class File_SearchReplace
     /**
      * Accessor for setting replace variable.
      *
-     * @param mixed $replace The string/regex to replace the find 
+     * @param mixed $replace The string/regex to replace the find
      * string/regex with, or array of strings
      *
      * @access public
@@ -235,34 +236,39 @@ class File_SearchReplace
      *           only works with this type.
      *  quick  - Uses str_replace for straight replacement throughout
      *           file. Quickest of the lot.
-     *  preg   - Uses preg_replace(), so any valid regex 
-     *  ereg   - Uses ereg_replace(), so any valid regex 
+     *  preg   - Uses preg_replace(), so any valid regex
+     *  ereg   - Uses ereg_replace(), so any valid regex
      *
      * @param string $search_function The search function that should be used.
      *
      * @access public
-     * @return void  
+     * @return void
      */
     function setSearchFunction($search_function)
     {
         switch($search_function) {
-        case 'normal': $this->search_function = 'search';
+        case 'normal':
+            $this->search_function = 'search';
             return true;
             break;
 
-        case 'quick' : $this->search_function = 'quickSearch';
+        case 'quick' :
+            $this->search_function = 'quickSearch';
             return true;
             break;
 
-        case 'preg'  : $this->search_function = 'pregSearch';
+        case 'preg'  :
+            $this->search_function = 'pregSearch';
             return true;
             break;
 
-        case 'ereg'  : $this->search_function = 'eregSearch';
+        case 'ereg'  :
+            $this->search_function = 'eregSearch';
             return true;
             break;
 
-        default      : $this->last_error      = 'Invalid search function specified';
+        default      :
+            $this->last_error = 'Invalid search function specified';
             return false;
             break;
         }
@@ -497,13 +503,22 @@ class File_SearchReplace
      */
     function doFiles($ser_func)
     {
-        if (!is_array($this->files)) $this->files = explode(',', $this->files);
-        for ($i=0; $i<count($this->files); $i++) {
-            if ($this->files[$i] == '.' OR $this->files[$i] == '..') continue;
-            if (is_dir($this->files[$i]) == true) continue;
-            $newfile = $this->$ser_func($this->files[$i]);
-            if (is_array($newfile) == true) {
-                $this->writeout($this->files[$i], $newfile[1]);
+        if (!is_array($this->files)) {
+            $this->files = explode(',', $this->files);
+        }
+
+        foreach ($this->files as $file) {
+            if ($file == '.' OR $file == '..') {
+                continue;
+            }
+
+            if (is_dir($file)) {
+                continue;
+            }
+
+            $newfile = $this->$ser_func($file);
+            if (is_array($newfile)) {
+                $this->writeout($file, $newfile[1]);
                 $this->occurences += $newfile[0];
             }
         }
@@ -577,9 +592,14 @@ class File_SearchReplace
     function doReplace()
     {
         $this->occurences = 0;
-        if ($this->find != '') {
-            if ((is_array($this->files) AND count($this->files) > 0) OR $this->files != '') $this->doFiles($this->search_function);
-            if ($this->directories != '')                                                   $this->doDirectories($this->search_function);
+        if (!empty($this->find)) {
+            if (!empty($this->files)) {
+                $this->doFiles($this->search_function);
+            }
+
+            if (!empty($this->directories)) {
+                $this->doDirectories($this->search_function);
+            }
         }
     }
 
