@@ -385,7 +385,7 @@ class File_SearchReplace
         // because I haven't decided yet whether it is bug or feature)
 
         if ($this->php5) {
-            $file = str_replace($this->find, $this->replace, $file, $counted);
+            $file = str_replace($local_find, $local_replace, $file, $counted);
 
             $occurences += $counted;
         } else {
