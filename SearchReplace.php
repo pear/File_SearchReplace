@@ -241,7 +241,6 @@ class File_SearchReplace
      *  quick  - Uses str_replace for straight replacement throughout
      *           file. Quickest of the lot.
      *  preg   - Uses preg_replace(), so any valid regex
-     *  ereg   - Uses ereg_replace(), so any valid regex
      *
      * @param string $search_function The search function that should be used.
      *
@@ -263,11 +262,6 @@ class File_SearchReplace
 
         case 'preg'  :
             $this->search_function = 'pregSearch';
-            return true;
-            break;
-
-        case 'ereg'  :
-            $this->search_function = 'eregSearch';
             return true;
             break;
 
@@ -449,48 +443,6 @@ class File_SearchReplace
 
         return false;
 
-    }
-
-    // }}}
-    // {{{ eregSearch()
-
-    /**
-     * Ereg search routine.
-     *
-     * @param string $filename The filename to search and replace upon.
-     *
-     * @access private
-     * @return array Will return an array containing the new file contents
-     *               and the number of occurences.
-     *               Will return false if there are no occurences.
-     */
-    function eregSearch($filename)
-    {
-
-        clearstatcache();
-
-        $file = file_get_contents($filename);
-
-        $local_find    = $this->getFind();
-        $local_replace = $this->getReplace();
-
-        $occurences = 0;
-
-        foreach ($local_find as $fk => $ff) {
-            $occurences += count(split($ff, $file)) - 1;
-            if (!is_array($local_replace)) {
-                $fr = $local_replace;
-            } else {
-                $fr = isset($local_replace[$fk]) ? $local_replace[$fk] : "";
-            }
-            $file = ereg_replace($ff, $fr, $file);
-        }
-
-        if ($occurences > 0) {
-            return array($occurences, $file);
-        }
-
-        return false;
     }
 
     // }}}

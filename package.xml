@@ -55,7 +55,6 @@ Request #14917 - PHPCS / General refactoring, use of file_get_contents pushes mi
     <file baseinstalldir="/" name="06quick_sa_rs.phpt" role="test" />
     <file baseinstalldir="/" name="07preg_ss_rs.phpt" role="test" />
     <file baseinstalldir="/" name="08preg_sa_ra.phpt" role="test" />
-    <file baseinstalldir="/" name="09ereg_mm.phpt" role="test" />
     <file baseinstalldir="/" name="setup.php" role="test" />
    </dir> <!-- //tests -->
    <file baseinstalldir="File" name="SearchReplace.php" role="php" />
