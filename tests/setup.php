@@ -1,8 +1,5 @@
 <?php
-
-if (@include(dirname(__FILE__)."/../SearchReplace.php")) {
-    $status = '';
-} elseif (@include('File/SearchReplace.php')) {
+if (include('File/SearchReplace.php')) {
     $status = '';
 } else {
     $status = 'skip';
