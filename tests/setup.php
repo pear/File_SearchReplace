@@ -6,16 +6,14 @@ if (include('File/SearchReplace.php')) {
     return;
 }
 
-$tmpdir = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') 
-           ? getenv('TMP')
-           : '/tmp';
+$tempdir = (function_exists('sys_get_temp_dir'))
+    ? sys_get_temp_dir()
+    : (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+        ? getenv('TMP')
+        : '/tmp';
 
-if (!chdir($tmpdir)) exit("Can't change into temporary directory");
-
-@mkdir('File_SearchReplace/');
-@mkdir('File_SearchReplace/dir');
-
-$onefilename = "stripiframetest.html";
+//$onefilename = "stripiframetest.html";
+$onefilename = tempnam($tempdir, 'one');
 $onefilecontents = <<<IFRAME
                 </td>
         </tr>
@@ -73,18 +71,16 @@ $onefilecontents = <<<IFRAME
 <td><img src="http://images.sourceforge.net/prdownloads/blank.gif" width="1" height="1" alt=""></td>
 IFRAME;
 
-$f = fopen($tmpdir."/".$onefilename, "w");
-fwrite($f, $onefilecontents);
-fclose($f);
+file_put_contents($onefilename, $onefilecontents);
 
-$files[] = "tweakcopyright.php";
+$files[] = tempnam($tempdir, 'copyright');
 $conts[] = "<?php
 // +-----------------------------------------------------------------------+
 // | Copyright (c) 2002-2003, Richard Heyes                                |
 // | All rights reserved.                                                  |
 // |                                                                       |";
 
-$files[] = "File_SearchReplace/dir/tweakversion.phps";
+$files[] = tempnam($tempdir, 'version');
 $conts[] = "/**
 // +-----------------------------------------------------------------------+
 // | Copyright (c) 2002-2003, Richard Heyes                                |
@@ -96,11 +92,9 @@ $conts[] = "/**
  * @package File
  */";
 
-$files[] = "File_SearchReplace/empty.file";
+$files[] = tempnam($tempdir, 'empty');
 $conts[] = "";
 
-foreach ($files as $k => $f) {
-    $f = fopen($tmpdir."/".$f, "w");
-    fwrite($f, $conts[$k]);
-    fclose($f);
+foreach ($files as $k => $filename) {
+    file_put_contents($filename, $conts[$k]);
 }
