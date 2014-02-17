@@ -1,0 +1,41 @@
+{
+    "authors": [
+        {
+            "email": "richard@php.net",
+            "name": "Richard Heyes",
+            "role": "Lead"
+        },
+        {
+            "email": "techtonik@php.net",
+            "name": "Anatoly Techtonik",
+            "role": "Lead"
+        },
+        {
+            "email": "daniel.oconnor@gmail.com",
+            "name": "Daniel O'Connor",
+            "role": "Lead"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "File_SearchReplace": "./"
+        }
+    },
+    "description": "More info available on: http://pear.php.net/package/File_SearchReplace",
+    "include-path": [
+        "./"
+    ],
+    "license": "BSD",
+    "name": "pear/file_searchreplace",
+    "support": {
+        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=File_SearchReplace",
+        "source": "https://github.com/pear/File_SearchReplace"
+    },
+    "type": "library",
+    "require": {
+        "pear/pear_exception": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
